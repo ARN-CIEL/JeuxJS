@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <script type="text/javascript" src="js/echo.js"></script>
     <meta charset="UTF-8">
     <title>TP JavaScript</title>
 </head>
@@ -12,7 +13,15 @@
     <section>
         <p>Voici le contenu principal de la page.</p>
     </section>
-
+    <div>
+        <label>Message à envoyer : </label>
+        <input type="text" id="messageEnvoi">
+        <input type="button" id="Envoyer" value="Envoyer">
+    </div>
+    <div>
+        <label>Message reçu : </label>
+        <input type="text" id="messageRecu" readonly>
+    </div>
     <footer>
         <p>&copy; 2025 ARNOULD</p>
     </footer>
