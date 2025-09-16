@@ -1,17 +1,12 @@
-console.log("Hello World!")
-
-var ipServeur = '172.17.50.134';     // Adresse ip du serveur  
+var ipServeur =location.hostname;     // Adresse ip du serveur  
 var ws;                             // Variable pour l'instance de la WebSocket.
-
-/*  ***************** Connexion au serveur WebSocket ********************   */
-// 
 
 window.onload = function () {
     if (TesterLaCompatibilite()) {
         ConnexionAuServeurWebsocket();
     }
     ControleIHM();
-}
+};
 
 function TesterLaCompatibilite() {
     let estCompatible = true;
@@ -20,7 +15,10 @@ function TesterLaCompatibilite() {
         estCompatible = false;
     }
     return estCompatible;
-    }
+};
+
+/*  ***************** Connexion au serveur WebSocket ********************   */
+// 
 function ConnexionAuServeurWebsocket() {
     ws = new WebSocket('ws://' + ipServeur + '/echo');
 
@@ -43,4 +41,4 @@ function ControleIHM() {
 
 function BPEnvoyer() {
     ws.send(document.getElementById('messageEnvoi').value);
-}
+} 

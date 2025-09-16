@@ -1,31 +1,34 @@
-'use strict';
+﻿'use strict';
 
-/*  *************** serveur Web *********************   */
-
+/*  *********************** Serveur Web ***************************   */
+//
 var express = require('express');
 var exp = express();
-exp.use(express.static(__dirname + '/www'));
-exp.get('/', function (req, res){
-    console.log('Reponse a un client');
-    res.sendFile(__dirname + '/www/textchat.html');
-});
+exp.use(express.static(__dirname + '/www')); 
 
-exp.use(function (err, req, res, next){
+exp.get('/', function (req, res) {
+    console.log('Reponse a un client'); 
+    res.sendFile(__dirname + '/www/qr.html');
+}); 
+
+exp.use(function (err, req, res, next) {
     console.error(err.stack);
     res.status(500).send('Erreur serveur express');
-});
+}); 
 
 /*  *************** serveur WebSocket express *********************   */
 // 
 var expressWs = require('express-ws')(exp);
 
-// Connexion des clients � la WebSocket /echo et evenements associ�s 
+// Connexion des clients à la WebSocket /echo et evenements associés 
 exp.ws('/echo', function (ws, req) {
 
     console.log('Connection WebSocket %s sur le port %s',
         req.connection.remoteAddress, req.connection.remotePort);
 
     ws.on('message', function (message) {
+        //message = ws._socket._peername.address + ws._socket._peername.port + ' : ' + message; 
+        //aWss.broadcast(message);
         console.log('De %s %s, message :%s', req.connection.remoteAddress,
             req.connection.remotePort, message);
         ws.send(message);
@@ -43,7 +46,7 @@ exp.ws('/echo', function (ws, req) {
 var portServ = 80;
 exp.listen(portServ, function () {
     console.log('Serveur en ecoute');
-}); 
+});
 
 /*  ****************** Broadcast clients WebSocket  **************   */
 var aWss = expressWs.getWss('/echo');
@@ -66,7 +69,7 @@ aWss.broadcast = function broadcast(data) {
 var question = '?';
 var bonneReponse = 0;
 
-// Connexion des clients a la WebSocket /qr et evenements associ�s 
+// Connexion des clients a la WebSocket /qr et evenements associés 
 // Questions/reponses 
 exp.ws('/qr', function (ws, req) {
     console.log('Connection WebSocket %s sur le port %s',
@@ -85,8 +88,22 @@ exp.ws('/qr', function (ws, req) {
         console.log('De %s %s, message :%s', req.connection.remoteAddress,
             req.connection.remotePort, message);
         if (message == bonneReponse) {
-            NouvelleQuestion();
+            aWss.broadcast('Réponse juste');
+            setTimeout(() => {
+                console.log('waitTime');
+                NouvelleQuestion();
+            }, '1000');
+            
         }
+        else {
+            aWss.broadcast('Réponse fausse');
+            setTimeout(() => {
+                console.log('waitTime');
+                aWss.broadcast(question);
+            }, '1000');
+            
+        }
+        
     }
 
 
