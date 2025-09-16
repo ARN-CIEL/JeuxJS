@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 var ipServeur =location.hostname;     // Adresse ip du serveur  
 var ws;                             // Variable pour l'instance de la WebSocket.
 
