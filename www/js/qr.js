@@ -1,4 +1,4 @@
-var ipServeur = '172.17.50.134';     // Adresse ip du serveur  
+var ipServeur = location.hostname;     // Adresse ip du serveur  
 var ws;                             // Variable pour l'instance de la WebSocket.
 
 /*  ***************** Connexion au serveur WebSocket ********************   */
