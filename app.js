@@ -7,7 +7,7 @@ var exp = express();
 exp.use(express.static(__dirname + '/www'));
 exp.get('/', function (req, res){
     console.log('Reponse a un client');
-    res.sendFile(__dirname + '/www/index.html');
+    res.sendFile(__dirname + '/www/textchat.html');
 });
 
 exp.use(function (err, req, res, next){
@@ -45,6 +45,30 @@ exp.listen(portServ, function () {
     console.log('Serveur en ecoute');
 }); 
 
-
+/*  ***************** Connexion au serveur WebSocket ********************   */ 
+// 
+function ConnexionAuServeurWebsocket() { 
+    ws = new WebSocket('ws://' + ipServeur + '/echo'); 
+ 
+    ws.onclose = function (evt) { 
+        window.alert('WebSocket close'); 
+    }; 
+ 
+    ws.onopen = function () { 
+        console.log('WebSocket open'); 
+    }; 
+ 
+    ws.onmessage = function (evt) { 
+        document.getElementById('messageRecu').value = evt.data; 
+    }; 
+} 
+ 
+function ControleIHM(){ 
+    document.getElementById('Envoyer').onclick = BPEnvoyer; 
+} 
+ 
+function BPEnvoyer(){ 
+    ws.send(document.getElementById('messageEnvoi').value); 
+} 
 
 console.log('TP CIEL');

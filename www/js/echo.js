@@ -20,7 +20,7 @@ function TesterLaCompatibilite() {
         estCompatible = false;
     }
     return estCompatible;
-}
+    }
 function ConnexionAuServeurWebsocket() {
     ws = new WebSocket('ws://' + ipServeur + '/echo');
 
